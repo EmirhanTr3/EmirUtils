@@ -1,7 +1,7 @@
-package xyz.emirdev.emirutils;
+package xyz.emirdev.emirutils.punishutils;
 
 public class PunishReason {
-    private String reason;
+    private final String reason;
     private boolean silent = false;
 
     public PunishReason(String reason, String defaultReason) {

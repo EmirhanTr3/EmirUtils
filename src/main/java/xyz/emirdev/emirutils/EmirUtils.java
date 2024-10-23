@@ -2,10 +2,18 @@ package xyz.emirdev.emirutils;
 
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.bukkit.BukkitLamp;
 import xyz.emirdev.emirutils.commands.*;
+import xyz.emirdev.emirutils.punishutils.PunishDuration;
+import xyz.emirdev.emirutils.parameters.EUOfflinePlayerParameterType;
+import xyz.emirdev.emirutils.punishutils.PunishReason;
+import xyz.emirdev.emirutils.parameters.PunishDurationParameterType;
+import xyz.emirdev.emirutils.parameters.PunishReasonParameterType;
+
+import java.util.List;
 
 public final class EmirUtils extends JavaPlugin {
     private static EmirUtils instance;
@@ -32,10 +40,21 @@ public final class EmirUtils extends JavaPlugin {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         luckPerms = provider.getProvider();
 
-        var lamp = BukkitLamp.builder(this).build();
-        lamp.register(new KickCommand());
-        lamp.register(new BanCommand());
-        lamp.register(new TempBanCommand());
+        var lamp = BukkitLamp.builder(this)
+                .parameterTypes(builder -> {
+                    builder.addParameterType(OfflinePlayer.class, new EUOfflinePlayerParameterType());
+                    builder.addParameterType(PunishReason.class, new PunishReasonParameterType());
+                    builder.addParameterType(PunishDuration.class, new PunishDurationParameterType());
+                })
+                .build();
+
+        List.of(
+                new KickCommand(),
+                new BanCommand(),
+                new TempBanCommand(),
+                new UnbanCommand()
+        ).forEach(lamp::register);
+
     }
 
     @Override

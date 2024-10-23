@@ -48,13 +48,13 @@ public class Utils {
     public static Duration parseDuration(String string) {
         Duration duration = Duration.ZERO;
 
+        if (!string.matches("(?:([0-9]+)(mo|[smhdwy]))*")) return null;
+
         Pattern pattern = Pattern.compile("([0-9]+)(mo|[smhdwy])");
         Matcher matcher = pattern.matcher(string.toLowerCase());
 
-        if (!matcher.hasMatch()) return null;
-
         while (matcher.find()) {
-            long number = Integer.parseInt(matcher.group(1));
+            long number = Long.parseLong(matcher.group(1));
             String type = matcher.group(2);
             duration = switch (type) {
                 case "s" -> duration.plusSeconds(number);
