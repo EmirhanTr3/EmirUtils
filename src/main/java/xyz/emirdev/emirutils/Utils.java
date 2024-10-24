@@ -6,7 +6,11 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,5 +73,26 @@ public class Utils {
         }
 
         return duration;
+    }
+
+    public static String parseDurationToString(Duration duration) {
+        List<String> strings = new ArrayList<>();
+        long days = duration.toDays();
+        long hours = duration.toHoursPart();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+
+        if (days    != 0) strings.add(days    + " " + (days    > 1 ? "days"    : "day"   ));
+        if (hours   != 0) strings.add(hours   + " " + (hours   > 1 ? "hours"   : "hour"  ));
+        if (minutes != 0) strings.add(minutes + " " + (minutes > 1 ? "minutes" : "minute"));
+        if (seconds != 0) strings.add(seconds + " " + (seconds > 1 ? "seconds" : "second"));
+
+        if (strings.isEmpty()) strings.add("0 second");
+
+        return String.join(" ", strings);
+    }
+
+    public static String formatDate(Date date) {
+        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z").format(date);
     }
 }

@@ -1,6 +1,7 @@
-package xyz.emirdev.emirutils;
+package xyz.emirdev.emirutils.handlers;
 
 import org.simpleyaml.configuration.file.YamlFile;
+import xyz.emirdev.emirutils.EmirUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class ConfigHandler {
     private YamlFile yamlFile;
 
     public ConfigHandler() {
-        loadDataFile();
+        loadFile();
 
         this.yamlFile.setComment("servername", "The server name to use in punishment messages.");
         this.yamlFile.addDefault("servername", "Server Name");
@@ -19,7 +20,7 @@ public class ConfigHandler {
         saveFile();
     }
 
-    public void loadDataFile() {
+    public void loadFile() {
         this.yamlFile = new YamlFile(DATA_FILE);
         try {
             this.yamlFile.createOrLoadWithComments();
