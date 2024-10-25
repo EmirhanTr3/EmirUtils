@@ -3,12 +3,12 @@ package xyz.emirdev.emirutils.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Default;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 import xyz.emirdev.emirutils.EmirUtils;
-import xyz.emirdev.emirutils.punishutils.PunishDuration;
-import xyz.emirdev.emirutils.punishutils.PunishReason;
+import xyz.emirdev.emirutils.punishutils.*;
 import xyz.emirdev.emirutils.Utils;
 
 public class TempBanCommand {
@@ -46,6 +46,18 @@ public class TempBanCommand {
                         reason.getReason()
                 )), duration.getDuration(), null);
             });
+
+            EmirUtils.get().getData().addHistory(
+                    new HistoryEntry(
+                            PunishUtils.generateId(),
+                            PunishType.TEMPBAN,
+                            target.getUniqueId(),
+                            sender instanceof Player player ? player.getUniqueId() : null,
+                            reason.getReason(),
+                            duration.getDuration(),
+                            System.currentTimeMillis()
+                    )
+            );
         });
     }
 }

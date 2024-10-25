@@ -2,12 +2,14 @@ package xyz.emirdev.emirutils.handlers;
 
 import org.simpleyaml.configuration.file.YamlFile;
 import xyz.emirdev.emirutils.EmirUtils;
+import xyz.emirdev.emirutils.punishutils.HistoryEntry;
 import xyz.emirdev.emirutils.punishutils.Mute;
+import xyz.emirdev.emirutils.punishutils.PunishType;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.UUID;
+import java.util.*;
 
 public class DataHandler {
     private static final File DATA_FILE = new File(EmirUtils.get().getDataFolder(), "data.yml");
@@ -89,5 +91,28 @@ public class DataHandler {
         this.yamlFile.set("mutes." + uuid, null);
         saveFile();
         loadFile();
+    }
+
+    public void addHistory(HistoryEntry entry) {
+        List<Map<?, ?>> history = this.yamlFile.getMapList("history");
+        history.add(entry.toMap());
+        this.yamlFile.set("history", history);
+        saveFile();
+        loadFile();
+    }
+
+    public List<HistoryEntry> getHistory(UUID uuid) {
+        List<HistoryEntry> historyEntryList = new ArrayList<>();
+        List<Map<?, ?>> history = this.yamlFile.getMapList("history");
+
+        for (Map<?, ?> parentMap : history) {
+            Map<String, Object> map = (Map<String, Object>) parentMap.get(parentMap.keySet().stream().findFirst().get());
+            String player = (String) map.get("player");
+            if (player.equals(uuid.toString())) {
+                historyEntryList.add(HistoryEntry.fromMap((Map<String, Map<String, Object>>) parentMap));
+            }
+        }
+
+        return historyEntryList;
     }
 }

@@ -8,8 +8,7 @@ import revxrsal.commands.annotation.Default;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 import xyz.emirdev.emirutils.EmirUtils;
 import xyz.emirdev.emirutils.Utils;
-import xyz.emirdev.emirutils.punishutils.PunishDuration;
-import xyz.emirdev.emirutils.punishutils.PunishReason;
+import xyz.emirdev.emirutils.punishutils.*;
 
 public class MuteCommand {
 
@@ -46,6 +45,18 @@ public class MuteCommand {
                         reason.getReason()
                 );
             }
+
+            EmirUtils.get().getData().addHistory(
+                    new HistoryEntry(
+                            PunishUtils.generateId(),
+                            PunishType.MUTE,
+                            target.getUniqueId(),
+                            sender instanceof Player player ? player.getUniqueId() : null,
+                            reason.getReason(),
+                            duration.getDuration(),
+                            System.currentTimeMillis()
+                    )
+            );
         });
     }
 }

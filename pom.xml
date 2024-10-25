@@ -50,6 +50,10 @@
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
+    <repository>
+      <id>xenondevs</id>
+      <url>https://repo.xenondevs.xyz/releases</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -81,6 +85,13 @@
       <groupId>net.luckperms</groupId>
       <artifactId>api</artifactId>
       <version>5.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>xyz.xenondevs.invui</groupId>
+      <artifactId>invui</artifactId>
+      <version>1.39</version>
+      <type>pom</type>
       <scope>provided</scope>
     </dependency>
   </dependencies>

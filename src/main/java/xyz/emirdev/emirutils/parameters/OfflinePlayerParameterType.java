@@ -9,7 +9,7 @@ import revxrsal.commands.parameter.ParameterType;
 import revxrsal.commands.stream.MutableStringStream;
 import xyz.emirdev.emirutils.EmirUtilsCommandException;
 
-public final class EUOfflinePlayerParameterType implements ParameterType<BukkitCommandActor, OfflinePlayer> {
+public final class OfflinePlayerParameterType implements ParameterType<BukkitCommandActor, OfflinePlayer> {
 
     @Override
     public OfflinePlayer parse(@NotNull MutableStringStream input, @NotNull ExecutionContext<BukkitCommandActor> context) {

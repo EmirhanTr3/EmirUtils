@@ -3,12 +3,16 @@ package xyz.emirdev.emirutils.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Default;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 import xyz.emirdev.emirutils.EmirUtils;
+import xyz.emirdev.emirutils.punishutils.HistoryEntry;
 import xyz.emirdev.emirutils.punishutils.PunishReason;
 import xyz.emirdev.emirutils.Utils;
+import xyz.emirdev.emirutils.punishutils.PunishType;
+import xyz.emirdev.emirutils.punishutils.PunishUtils;
 
 import java.util.Date;
 
@@ -34,6 +38,18 @@ public class BanCommand {
                         EmirUtils.get().getPluginConfig().getServerName(), sender.getName(), reason.getReason()
                 )), (Date) null, null);
             });
+
+            EmirUtils.get().getData().addHistory(
+                    new HistoryEntry(
+                            PunishUtils.generateId(),
+                            PunishType.BAN,
+                            target.getUniqueId(),
+                            sender instanceof Player player ? player.getUniqueId() : null,
+                            reason.getReason(),
+                            null,
+                            System.currentTimeMillis()
+                    )
+            );
         });
     }
 }

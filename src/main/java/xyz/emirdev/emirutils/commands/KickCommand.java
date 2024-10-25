@@ -6,8 +6,11 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Default;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 import xyz.emirdev.emirutils.EmirUtils;
+import xyz.emirdev.emirutils.punishutils.HistoryEntry;
 import xyz.emirdev.emirutils.punishutils.PunishReason;
 import xyz.emirdev.emirutils.Utils;
+import xyz.emirdev.emirutils.punishutils.PunishType;
+import xyz.emirdev.emirutils.punishutils.PunishUtils;
 
 public class KickCommand {
 
@@ -27,5 +30,17 @@ public class KickCommand {
                 """,
                 EmirUtils.get().getPluginConfig().getServerName(), sender.getName(), reason.getReason()
         ));
+
+        EmirUtils.get().getData().addHistory(
+                new HistoryEntry(
+                        PunishUtils.generateId(),
+                        PunishType.KICK,
+                        target.getUniqueId(),
+                        sender instanceof Player player ? player.getUniqueId() : null,
+                        reason.getReason(),
+                        null,
+                        System.currentTimeMillis()
+                )
+        );
     }
 }

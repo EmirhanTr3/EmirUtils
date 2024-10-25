@@ -11,10 +11,11 @@ import xyz.emirdev.emirutils.events.PlayerChatEvent;
 import xyz.emirdev.emirutils.handlers.ConfigHandler;
 import xyz.emirdev.emirutils.handlers.DataHandler;
 import xyz.emirdev.emirutils.punishutils.PunishDuration;
-import xyz.emirdev.emirutils.parameters.EUOfflinePlayerParameterType;
+import xyz.emirdev.emirutils.parameters.OfflinePlayerParameterType;
 import xyz.emirdev.emirutils.punishutils.PunishReason;
 import xyz.emirdev.emirutils.parameters.PunishDurationParameterType;
 import xyz.emirdev.emirutils.parameters.PunishReasonParameterType;
+import xyz.xenondevs.invui.InvUI;
 
 import java.util.List;
 
@@ -45,13 +46,14 @@ public final class EmirUtils extends JavaPlugin {
         instance = this;
         config = new ConfigHandler();
         data = new DataHandler();
+        InvUI.getInstance().setPlugin(this);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         luckPerms = provider.getProvider();
 
         var lamp = BukkitLamp.builder(this)
                 .parameterTypes(builder -> {
-                    builder.addParameterType(OfflinePlayer.class, new EUOfflinePlayerParameterType());
+                    builder.addParameterType(OfflinePlayer.class, new OfflinePlayerParameterType());
                     builder.addParameterType(PunishReason.class, new PunishReasonParameterType());
                     builder.addParameterType(PunishDuration.class, new PunishDurationParameterType());
                 })
@@ -63,7 +65,8 @@ public final class EmirUtils extends JavaPlugin {
                 new TempBanCommand(),
                 new UnbanCommand(),
                 new MuteCommand(),
-                new UnmuteCommand()
+                new UnmuteCommand(),
+                new HistoryCommand()
         ).forEach(lamp::register);
 
         List.of(
