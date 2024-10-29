@@ -46,7 +46,7 @@ public class HistoryCommand {
 
         Item border = new SimpleItem(borderItem);
 
-        List<Item> items = history.stream()
+        List<Item> items = history.reversed().stream()
                 .map(entry -> {
                     ItemStack item;
                     if (entry.getPlayerModerator() != null) {
