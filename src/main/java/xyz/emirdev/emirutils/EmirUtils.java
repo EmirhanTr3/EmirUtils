@@ -10,6 +10,7 @@ import xyz.emirdev.emirutils.commands.*;
 import xyz.emirdev.emirutils.events.PlayerChatEvent;
 import xyz.emirdev.emirutils.handlers.ConfigHandler;
 import xyz.emirdev.emirutils.handlers.DataHandler;
+import xyz.emirdev.emirutils.managers.ProxyIntegrationManager;
 import xyz.emirdev.emirutils.punishutils.PunishDuration;
 import xyz.emirdev.emirutils.parameters.OfflinePlayerParameterType;
 import xyz.emirdev.emirutils.punishutils.PunishReason;
@@ -24,6 +25,7 @@ public final class EmirUtils extends JavaPlugin {
     private ConfigHandler config;
     private DataHandler data;
     private static LuckPerms luckPerms;
+    private ProxyIntegrationManager proxyIntegrationManager;
 
     public ConfigHandler getPluginConfig() {
         return config;
@@ -41,12 +43,17 @@ public final class EmirUtils extends JavaPlugin {
         return luckPerms;
     }
 
+    public ProxyIntegrationManager getProxyIntegrationManager() {
+        return proxyIntegrationManager;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         config = new ConfigHandler();
         data = new DataHandler();
         InvUI.getInstance().setPlugin(this);
+        proxyIntegrationManager = new ProxyIntegrationManager();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         luckPerms = provider.getProvider();
